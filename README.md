@@ -7,7 +7,7 @@ same underlying logic, so results are consistent across all three.
 
 ## Download
 
-Grab the latest build from the [Releases page](https://github.com/wtembundit/Turnover-Releases/releases/latest).
+Grab the latest build from the [Releases page](https://github.com/wtembundit/Turnover/releases/latest).
 
 - `Turnover-Standalone-v*.zip` - the standalone app. Also bundles **Timeline
   Index+**, a Final Cut Pro Workflow Extension panel, automatically.
@@ -224,6 +224,30 @@ Pro) before the first capture.
 - Data Burn-In's multicam support is experimental - flatten multicam
   clips first for reliable results.
 - Timeline Index+ requires an active Final Cut Pro sequence.
+
+## Documentation
+
+- [Turnover Tools Guide](docs/turnover-tools.md): detailed workflow
+  descriptions and usage notes for every tool - Conform Prep, Data Burn-In,
+  VFX Auto Naming/Reset Naming, VFX Auto Marker, VFX Shot List, VFX Pull
+  EDL, and VFX Timeline.
+- [Timeline Index+ Guide](docs/timeline-index-extension.md): the native
+  Final Cut Pro Workflow Extension - live clip index, filters, playhead
+  following, CSV export, and analysis-cache checking.
+- Release notes: [v1.4.3](docs/release-notes-v1.4.3.md) ·
+  [v1.4.2](docs/release-notes-v1.4.2.md) ·
+  [v1.4.1](docs/release-notes-v1.4.1.md) ·
+  [v1.4.0](docs/release-notes-v1.4.0.md) ·
+  [v1.3.2](docs/release-notes-v1.3.2.md) ·
+  [v1.3.1](docs/release-notes-v1.3.1.md) ·
+  [v1.3.0](docs/release-notes-v1.3.0.md) ·
+  [v1.2.2](docs/release-notes-v1.2.2.md) ·
+  [v1.2.1](docs/release-notes-v1.2.1.md) ·
+  [v1.2.0](docs/release-notes-v1.2.0.md) ·
+  [v1.1.0](docs/release-notes-v1.1.0.md)
+
+This repository ships builds and user-facing documentation only. Turnover's
+implementation lives in a separate, private source repository.
 
 ## Updates
 

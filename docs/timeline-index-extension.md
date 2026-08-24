@@ -9,7 +9,7 @@ export step.
 ## What It Does
 
 Timeline Index+ opens as a panel inside Final Cut Pro (Window > Extensions >
-Timeline Index+) and stays in sync with whichever sequence is open.
+Timeline Index+) and stays in sync with whichever project is open.
 
 Common uses:
 
@@ -54,12 +54,12 @@ This gives it a few real advantages an FCPXML-based tool does not have:
   inferred from an XML export's own approximations.
 
 The tradeoff is that this only ever works while Final Cut Pro has a project
-open with an active sequence - there is no standalone/offline mode the way
-Data Burn-In has one, since the whole point is reading the live library.
+open - there is no standalone/offline mode the way Data Burn-In has one,
+since the whole point is reading the live library.
 
 ## Basic Workflow
 
-1. Open a project in Final Cut Pro with an active sequence.
+1. Open a project in Final Cut Pro with the timeline you want to inspect.
 2. Choose **Window > Extensions > Timeline Index+**.
 3. The list populates with every clip on the current timeline. Use the
    search field, the feature filter, the type filter, or the enabled/
@@ -131,7 +131,7 @@ Metadata, Enabled, Features, Details, Title Text`
 
 ## Known Limits
 
-- Requires Final Cut Pro to have an active sequence open - there is no
+- Requires Final Cut Pro to have an open project - there is no
   offline/standalone mode.
 - Multicam angle camera selection, when a clip's real media sits behind a
   double-system-sound sync group with no other disambiguating signal, uses

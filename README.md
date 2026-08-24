@@ -44,8 +44,8 @@ the first time, Control-click the app, choose **Open**, then confirm once.
 Turnover Standalone works from an **FCPXML export**, not a live connection
 to Final Cut Pro:
 
-1. In Final Cut Pro, export the project/sequence you want to work on as
-   FCPXML (File > Export XML), or export a `.fcpxmld` bundle.
+1. In Final Cut Pro, export the project you want to work on as FCPXML
+   (File > Export XML), or export a `.fcpxmld` bundle.
 2. Drag the `.fcpxml`/`.fcpxmld` into the Turnover window, or use **Choose
    File**. You can also drag a project directly from Final Cut Pro's own
    browser into the window - Turnover reads it the same way.
@@ -171,7 +171,7 @@ for Data Burn-In and the rest of the tools, without leaving Final Cut Pro.
 
 ### Limits
 
-- Requires an active Final Cut Pro sequence - there's no offline mode,
+- Requires an open Final Cut Pro project - there's no offline mode,
   since the whole point is reading the live library.
 - Multicam angle camera selection, in the rare case a clip's real media
   sits behind a synced double-system-sound recording with no other
@@ -223,7 +223,7 @@ Pro) before the first capture.
   reduced reproducible case reported.
 - Data Burn-In's multicam support is experimental - flatten multicam
   clips first for reliable results.
-- Timeline Index+ requires an active Final Cut Pro sequence.
+- Timeline Index+ requires an open Final Cut Pro project.
 
 ## Documentation
 

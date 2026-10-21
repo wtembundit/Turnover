@@ -1,12 +1,12 @@
 # Turnover Tools Guide
 
-This guide explains the main Turnover workflows for Final Cut Pro VFX turnover through the native SpliceKit plugin.
+This guide explains the main Turnover workflows for Final Cut Pro VFX turnover in Turnover Standalone. See the [Standalone Guide](../standalone/TurnoverApp/README.md) for installation and input methods.
 
 > Current status: Turnover is usable for the workflows we have tested, but it is still a work in progress. Some FCPXML edge cases still need refinement, especially complex retime/speed-ramp combinations, nested sync clips, titles connected across multiple clips, markers, transforms, and metadata in unusual timelines.
 
 ## 🎞 Conform Prep
 
-Prepares a timeline for VFX conform by flattening `sync-clip` items into easier-to-read original source clips where possible.
+Prepares a timeline for VFX conform by flattening `sync-clip` items, and the common kinds of multicam clip, into easier-to-read original source clips where possible, as a video-only result. Multicam inside compound clips, nested multicam and similar shapes are skipped and listed in the report.
 
 Best for:
 
@@ -27,36 +27,32 @@ Important notes:
 - **Preflight:** duplicate the timeline and keep the master timeline untouched. Conform Prep now removes understood audio structures automatically, similar in result to running on a duplicate after detaching/deleting audio.
 - For critical conform checks, manually detach/delete audio on the duplicate first when practical. This gives the cleanest comparison, especially while validating source timing after relink.
 - Audio, title, and marker preservation can introduce import behavior that obscures the source-flattening result. Validate those elements separately after clip timing and media references are confirmed.
-- Not every FCPXML shape is guaranteed yet, especially multicam and retime patterns we have not tested.
+- Not every FCPXML shape is guaranteed yet. Multicam is flattened for the common active-angle shapes only; anything else is skipped and reported.
 - If a clip disappears or titles/markers drift after import, keep both the original XML and generated XML as a reproducible test case.
 
 ## 🔥 Data Burn-In
 
-Creates review burn-ins from the current Final Cut Pro timeline through Turnover standalone.
+Creates review burn-ins from an FCPXML or Final Cut Pro project loaded into Turnover.
 
-SpliceKit menu items:
+Exports:
 
-- **Burn-In Transparent...** exports a transparent ProRes 4444 overlay using a preset saved in Turnover standalone.
-- **Burn-In Customize...** opens the current Final Cut Pro timeline in the Turnover Data Burn-In Customizer for preview, style changes, metadata selection, range export, and preset editing.
+- **Transparent overlay:** a ProRes 4444 `.mov` with alpha, using a saved preset.
+- **Burned-in reference:** H.264/HEVC export over a reference video.
+- **Customizer:** preview, style changes, metadata selection, range export, and preset editing.
 
 Best for:
 
 - Quick transparent burn-in overlays that can be placed above a timeline in Final Cut Pro.
 - Review exports where the burn-in layout should match a saved team preset.
-- Handing off to Turnover standalone when the user needs to customize fields, labels, metadata, style, or export range.
+- Customizing fields, labels, metadata, style, or export range.
 
 Important notes:
 
-- SpliceKit does not run the Burn-In parser directly. It exports a temporary FCPXML snapshot and calls Turnover's headless Burn-In command.
-- The release plugin bundles the matching `Turnover.app` for Burn-In headless export.
-- Burn-In presets come from Turnover standalone, so users should create or edit presets there first.
 - Transparent export is ProRes 4444 `.mov` with alpha and no audio.
-- Burned-in H.264/HEVC reference export is available in Turnover standalone.
-- If SpliceKit appears to use an older parser or preset list, confirm which `Turnover.app` it resolved before debugging the FCPXML.
 
-## 📝 VFX Auto Naming
+## 📝 VFX Naming
 
-Automatically numbers `VFX NAMING` titles.
+Automatically numbers `VFX NAMING` titles or captions, or resets them back to the `XXXX` placeholder.
 
 Best for:
 
@@ -79,7 +75,7 @@ ABC_SC99_XXXX  ->  ABC_SC99_0020
 ABC_SC100_XXXX ->  ABC_SC100_0010
 ```
 
-## 🔁 VFX Reset Naming
+## 🔁 Resetting Names
 
 Resets numbered `VFX NAMING` titles back to the `XXXX` placeholder.
 
@@ -104,7 +100,7 @@ ABC_SC99_0020 -> ABC_SC99_XXXX
 
 ## 🛠 VFX Auto Marker
 
-Creates Final Cut Pro markers from `VFX NAMING` titles so downstream workflows can read shot positions.
+Creates Final Cut Pro markers from `VFX NAMING` titles or captions so downstream workflows can read shot positions.
 
 Best for:
 
@@ -120,11 +116,10 @@ Marker types:
 
 What it does:
 
-- Lets the user choose marker type from the Turnover menu.
+- Lets the user choose marker type.
 - Reads the VFX number from each naming title.
 - Places markers at the title positions so other Turnover workflows can use them.
-- By default, creates stable marker anchors only and does not import patched marker XML back into Final Cut Pro.
-- Optional `Rename markers from VFX titles` writes VFX numbers and notes back into marker names/notes through FCPXML import. This is off by default because complex timelines can be less stable during marker relabel/import.
+- `Rename and add notes` (on by default) writes VFX numbers and notes back into marker names/notes through FCPXML import. Turn it off to create marker anchors only.
 
 `VFX Shot List` does not require renamed markers. It treats VFX titles as the source of truth for shot number and description, then uses markers as capture anchors.
 
@@ -164,25 +159,14 @@ Main columns:
 
 Thumbnail capture behavior:
 
-- Turnover captures the largest visible Final Cut Pro window through the native plugin.
-- For the most reliable thumbnails, open the fullscreen viewer before running the tool.
-- macOS Screen Recording permission must be granted for the patched Final Cut Pro/SpliceKit process.
-
-Screen Recording preflight:
-
-1. Choose `Turnover > Open Turnover` before running the first Shot List.
-2. Click `Request Screen Recording`.
-3. Approve Final Cut Pro/SpliceKit in macOS System Settings.
-4. Quit and reopen Final Cut Pro so macOS applies the permission cleanly.
-5. Confirm that the Turnover panel shows `Screen Recording: OK`, then run `VFX Shot List`.
-
-Turnover can trigger the permission request during the first Shot List run, but that run may already be inside the fullscreen/capture sequence. Granting permission at that point can interrupt capture, so the panel preflight is the recommended workflow.
+- Thumbnails are extracted from a reference movie whose timecode matches the timeline.
+- Each thumbnail is taken at a user marker placed anywhere within the VFX title or caption's own visible range; the marker's name does not matter.
 
 Important notes:
 
-- If Screen Recording permission is missing, thumbnails may be blank or captured from the wrong window.
+- The reference movie must start at the same timecode as the timeline, or thumbnails will land on the wrong frames.
 - Timelines with heavy overlap should be checked after export to confirm the source ranges are correct.
-- `VFX Shot List` and `VFX Pull EDL` should resolve the same VFX shot set. Both tools use markers as anchors and `VFX NAMING` titles as the source of VFX number, note, and visible range.
+- `VFX Shot List` and `VFX Pull EDL` should resolve the same VFX shot set. Both tools use markers as anchors and `VFX NAMING` titles or captions as the source of VFX number, note, and visible range.
 
 ## 🧾 VFX Pull EDL
 

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Download Turnover</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f5f2;
+      --panel: #ffffff;
+      --text: #211c17;
+      --muted: #6f675f;
+      --border: #e0d9d1;
+      --accent: #d9731a;
+      --accent-hover: #b85d0f;
+      --button-text: #ffffff;
+      --shadow: 0 18px 50px rgba(48, 32, 16, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #11100e;
+        --panel: #1b1916;
+        --text: #f3eee8;
+        --muted: #ada499;
+        --border: #36312b;
+        --accent: #f08a2c;
+        --accent-hover: #ff9d45;
+        --button-text: #1b1916;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100%, 520px);
+      padding: 40px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    img {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+    }
+
+    h1 {
+      margin: 20px 0 8px;
+      font-size: 1.65rem;
+      letter-spacing: 0;
+    }
+
+    #status {
+      min-height: 3em;
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    a {
+      min-height: 44px;
+      padding: 11px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 650;
+    }
+
+    a.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--button-text);
+    }
+
+    a.primary:hover {
+      border-color: var(--accent-hover);
+      background: var(--accent-hover);
+    }
+
+    .small {
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 16px;
+      }
+
+      main {
+        padding: 30px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="turnover.png" alt="Turnover app icon">
+    <h1>Turnover</h1>
+    <p id="status" role="status">Finding the latest release...</p>
+
+    <div class="actions">
+      <a id="download" class="primary" href="https://github.com/wtembundit/Turnover/releases/latest">
+        Download latest version
+      </a>
+      <a id="release-page" href="https://github.com/wtembundit/Turnover/releases/latest">
+        View release details
+      </a>
+    </div>
+
+    <p id="note" class="small">Signed and notarized for macOS 14 or later</p>
+  </main>
+
+  <script>
+    const apiURL = "https://api.github.com/repos/wtembundit/Turnover/releases/latest";
+    const releasesURL = "https://github.com/wtembundit/Turnover/releases/latest";
+    const status = document.getElementById("status");
+    const download = document.getElementById("download");
+    const releasePage = document.getElementById("release-page");
+    const note = document.getElementById("note");
+    const shouldAutoDownload = new URLSearchParams(window.location.search).get("manual") !== "1";
+
+    const prefersThai = (navigator.language || "").toLowerCase().startsWith("th");
+    const labels = prefersThai ? {
+      finding: "กำลังค้นหาเวอร์ชันล่าสุด...",
+      ready: version => `เวอร์ชัน ${version} พร้อมดาวน์โหลด และจะเริ่มโดยอัตโนมัติ`,
+      readyManual: version => `เวอร์ชัน ${version} พร้อมดาวน์โหลด`,
+      fallback: "ไม่สามารถเริ่มดาวน์โหลดอัตโนมัติได้ กรุณาเปิดหน้า Release",
+      download: "ดาวน์โหลดเวอร์ชันล่าสุด",
+      release: "ดูรายละเอียด Release",
+      note: "ลงนามและ notarize แล้ว ใช้กับ macOS 14 ขึ้นไป"
+    } : {
+      finding: "Finding the latest release...",
+      ready: version => `Version ${version} is ready. Your download will begin automatically.`,
+      readyManual: version => `Version ${version} is ready to download.`,
+      fallback: "Automatic download is unavailable. Please open the release page.",
+      download: "Download latest version",
+      release: "View release details",
+      note: "Signed and notarized for macOS 14 or later"
+    };
+
+    status.textContent = labels.finding;
+    download.textContent = labels.download;
+    releasePage.textContent = labels.release;
+    note.textContent = labels.note;
+
+    fetch(apiURL, { headers: { "Accept": "application/vnd.github+json" } })
+      .then(response => {
+        if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+        return response.json();
+      })
+      .then(release => {
+        const archive = (release.assets || []).find(asset => /^turnover-standalone-.*\.zip$/i.test(asset.name));
+        if (!archive) throw new Error("The latest release does not contain the Turnover download");
+
+        const version = (release.tag_name || "latest").replace(/^v/, "");
+        download.href = archive.browser_download_url;
+        releasePage.href = release.html_url || releasesURL;
+        status.textContent = shouldAutoDownload ? labels.ready(version) : labels.readyManual(version);
+
+        if (shouldAutoDownload) {
+          window.setTimeout(() => {
+            window.location.assign(archive.browser_download_url);
+          }, 900);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        status.textContent = labels.fallback;
+        download.href = releasesURL;
+      });
+  </script>
+</body>
+</html>

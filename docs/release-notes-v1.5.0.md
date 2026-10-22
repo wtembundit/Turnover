@@ -1,8 +1,8 @@
 # Turnover v1.5.0 Release Notes
 
 Turnover v1.5.0 is a big update to the Standalone app: a redesigned window, automatic
-updates, a much more flexible Data Burn-In, a round of Conform Prep fixes, and a long list of
-Timeline Index+ accuracy fixes. The SpliceKit plugin is no longer part of Turnover.
+updates, a much more flexible Data Burn-In, VFX tools that work with captions as well as titles,
+a round of Conform Prep fixes, and a long list of Timeline Index+ accuracy fixes. The SpliceKit plugin is no longer part of Turnover.
 
 ## Updating
 
@@ -85,6 +85,25 @@ markers and effects kept.
   lane being dropped.
 - The guide now lists exactly which multicam shapes are flattened and which are skipped and
   reported (multicam inside compound clips, nested multicam, angles that are sync clips).
+
+## VFX tools: captions as well as titles
+
+VFX shots can now be carried by Final Cut Pro captions, not only by the `VFX NAMING` title.
+
+- **VFX Source setting** in VFX Naming, Auto Marker and the other VFX tools: **Auto** (default)
+  uses whichever the project has, or choose **Titles** or **Captions**.
+- **VFX Naming** (auto number and reset) reads and rewrites VFX captions the same way it does
+  titles, and checks the result against the FCPXML DTD. Ordinary dialogue or subtitle captions are
+  left alone.
+- **New tool: Title <-> Caption** (VFX tab) converts VFX titles to captions or captions to titles,
+  in place at the same position. You choose what happens to the originals: keep them, disable them,
+  or delete them.
+- **VFX Auto Marker** creates markers from VFX captions as well as titles, and its "rename and add
+  notes" option is now on by default.
+- **VFX Shot List and VFX Pull EDL** pick up each shot from a marker placed anywhere inside its
+  title or caption, whatever the marker is called, and share one definition of what a VFX shot is,
+  so their shot lists always agree.
+- **VFX Timeline** reads the VFX number from captions too.
 
 ## Timeline Index+
 

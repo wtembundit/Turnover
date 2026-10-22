@@ -117,17 +117,17 @@ every row now matches in name and position.
 - Connected clips report their real position after trimming or slipping; clips whose audio
   was detached and replaced by a gap are listed; internal placeholder gaps are not; animated
   Transform values read as one line per property.
+- **Works on every Mac.** The panel could stay on "Loading..." or say "No active project" on Macs
+  with System Integrity Protection on (the default). Both causes are fixed. The first time you
+  open it, macOS now asks whether Turnover may control Final Cut Pro: choose **Allow**.
 - **Setup help:** Final Cut Pro only lists the extension once Turnover has been opened from
-  the Applications folder. Turnover now warns in its sidebar when that is not the case, and
+  the Applications folder. Turnover warns in its sidebar when that is not the case, and
   registers the extension when it can.
 - The panel has a **Copy Diagnostics** button that records what it did and what Final Cut Pro
   answered, to make problems reportable, and says so when Final Cut has not sent a project.
-- Read access for the library is now requested explicitly, and the Final Cut Pro Trial and
-  Creator Studio variants are covered.
+- Covers the Final Cut Pro Trial as well as the regular app.
 
 ## Known limits
 
 - Multicam flattening still skips the shapes listed above.
-- On some Macs the Timeline Index+ panel has been reported to stay on loading; this release
-  adds the diagnostics and the access changes above but the cause was not reproduced.
 - Retimed clips that also carry a Conform Rate use their time map as is in Data Burn-In.

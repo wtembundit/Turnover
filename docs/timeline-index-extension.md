@@ -75,6 +75,12 @@ extension is not registered, with buttons to show the app and open the
 Applications folder. Requirements: a Mac with Apple silicon, macOS 14 or later,
 and Final Cut Pro 10.7 or later.
 
+**First use: allow Turnover to control Final Cut Pro.** The first time the panel opens, macOS asks
+whether Turnover (Timeline Index+) may control Final Cut Pro. Choose **Allow**: that is how the panel
+asks Final Cut Pro which project is open. If you chose Don't Allow, or the panel says it received no
+project, open System Settings > Privacy & Security > Automation and switch Final Cut Pro on under
+Turnover, then close and reopen the panel.
+
 If it still does not appear: make sure only one copy of Turnover exists, open it
 from Applications again, restart Final Cut Pro, and check that the sidebar
 warning is gone. Final Cut Pro shows the Extensions menu only when at least one

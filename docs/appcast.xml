@@ -32,7 +32,7 @@ playback, and a simpler, shape-safe Resolution for Data Burn-In exports.
 - Tab and Shift-Tab move between controls; macOS needs **Keyboard navigation** switched on (System Settings >
   Keyboard) for Tab to reach every button and menu.
 
-See [Keyboard Shortcuts](keyboard-shortcuts.md) for the full list.
+See [Keyboard Shortcuts](https://github.com/wtembundit/Turnover/blob/main/docs/keyboard-shortcuts.md) for the full list.
 
 ## Timeline Index+
 
@@ -58,9 +58,12 @@ See [Keyboard Shortcuts](keyboard-shortcuts.md) for the full list.
   60-per-second timer, so a 24 fps project ran at about two and a half times speed and stuttered: the burned-in
   text and timecode changed so fast that the bottom of the preview seemed to shake. It now follows the real clock
   at the speed you pick (1x, or J/L for faster), and stops at the end it is travelling towards.
+- **Deselect by clicking the picture.** A click on the preview, away from any element, takes the orange frame off, so you can judge
+  the burn-in without it (a click on an element or its row in the list selects it again; Shift-Cmd-A does the same).
 - **Full screen preview.** A new button at the right of the transport bar (or **F**, or Shift-Cmd-F) puts the preview alone on
   the whole screen, with the transport bar under it, to check the burn-in at full size. F, Esc or the button brings the
-  panels back.
+  panels back. No element frames are drawn there, and the burned-in text is redrawn at once for the new size (it used to stay
+  small until you scrubbed, both entering and leaving full screen).
 - **Resolution is one choice, not two.** The export menu used to mix percentages with named sizes (1080p, 720p ...),
   which went wrong for pictures that are not 16:9. Now it is **Original**, a percentage (200%, 150%, 75%, 50%, 25%)
   or **Custom**, and every choice scales both edges together, so the picture keeps its shape: portrait stays
@@ -77,7 +80,7 @@ See [Keyboard Shortcuts](keyboard-shortcuts.md) for the full list.
 Only the Standalone app and its Timeline Index+ panel changed. The Final Cut Pro side of Timeline Index+ (the
 permission prompt on first use, opening Turnover once from the Applications folder) is as in v1.5.1.
 ]]></description>
-            <enclosure url="https://github.com/wtembundit/Turnover/releases/download/v1.5.2/Turnover-Standalone-v1.5.2.zip" length="29400871" type="application/octet-stream" sparkle:edSignature="10mtXZqPpLLEL0gfD9ILc0YoKCJEfRwydbnlT/PCx5+aRZy+oKw25rASy0F5eJhOHfFUpXQCDd7UEJlCkEqQAQ=="/>
+            <enclosure url="https://github.com/wtembundit/Turnover/releases/download/v1.5.2/Turnover-Standalone-v1.5.2.zip" length="29404081" type="application/octet-stream" sparkle:edSignature="J4W2Iy7wRlpFAqXR5VGvRnD9W4OKIIkEKLCgmIqjFFq3ylN03RDH2Gy2j5isjbKn9Hxl+RmUjB6dux9VHBlGAA=="/>
         </item>
         <item>
             <title>1.5.1</title>

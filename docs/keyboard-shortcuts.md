@@ -38,6 +38,7 @@ The Customizer is its own window; its keys apply while it is in front. The tool 
 | Cmd-N | New element |
 | Cmd-D | Duplicate the selected element |
 | Option-Cmd-Delete | Delete the selected element |
+| Shift-Cmd-A | Deselect: the orange frame leaves the preview (or just click the picture) |
 | Shift-Cmd-H | Hide or show the selected element |
 | Option-Cmd-Up / Down | Move the element up or down the list |
 | Option-Cmd-1 ... 4 | Show the Element, Display, Data or Export settings |

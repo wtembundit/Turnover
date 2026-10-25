@@ -20,7 +20,7 @@ playback, and a simpler, shape-safe Resolution for Data Burn-In exports.
 - Tab and Shift-Tab move between controls; macOS needs **Keyboard navigation** switched on (System Settings >
   Keyboard) for Tab to reach every button and menu.
 
-See [Keyboard Shortcuts](keyboard-shortcuts.md) for the full list.
+See [Keyboard Shortcuts](https://github.com/wtembundit/Turnover/blob/main/docs/keyboard-shortcuts.md) for the full list.
 
 ## Timeline Index+
 

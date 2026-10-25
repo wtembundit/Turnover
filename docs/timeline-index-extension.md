@@ -16,10 +16,12 @@ Common uses:
 - See every clip on the active timeline in one list - ordinary clips, sync
   clips, multicam clips/angles, compound clips, storylines, gaps, transitions,
   titles, and generators - not just clips with a tracked effect.
-- Filter by feature (Retime, Optical Flow, Machine Learning, Stabilization,
+- Filter by effect (Retime, Optical Flow, Machine Learning, Stabilization,
   Magnetic Mask, Auto Mask, Tracker, Transform, Spatial Conform, Rate
-  Conform, Crop, Distort, Composition), by clip type, or by Enabled/Disabled
-  state.
+  Conform, Crop, Distort, Composition), by clip type, by role, or by
+  Enabled/Disabled state.
+- See each clip's Final Cut Pro **role** (Video, VFX, Dialogue.BoomMic ...) in
+  its own column.
 - Follow the Final Cut Pro playhead automatically, or click a row to move the
   playhead there.
 - See exactly what changed on a clip - Blend Mode, Transform, Retime speed,
@@ -91,8 +93,8 @@ extension is registered.
 1. Open a project in Final Cut Pro with the timeline you want to inspect.
 2. Choose **Window > Extensions > Timeline Index+**.
 3. The list populates with every clip on the current timeline. Use the
-   search field, the feature filter, the type filter, or the enabled/
-   disabled filter to narrow it down.
+   search field, the effect filter, the type filter, the role filter, or
+   the enabled/disabled filter to narrow it down.
 4. Click a clip to select it (this also moves Final Cut's playhead there);
    moving Final Cut's own playhead selects the matching row automatically.
 5. Select a clip to see its non-default values (effects, transform,
@@ -106,8 +108,9 @@ extension is registered.
 
 ## Filters
 
-- **Search**: matches clip names.
-- **Feature filter**: shows only clips carrying a specific tracked change
+- **Search**: matches clip names, media names and role names (type "boom" to
+  find everything with a BoomMic role). Cmd-F moves to the search field.
+- **Effect filter** (All Effects, or one of the effects below): shows only clips carrying a specific tracked effect or change
   (Retime, Optical Flow, Machine Learning, Stabilization, Magnetic Mask,
   Auto Mask, Tracker, Transform, Spatial Conform, Rate Conform, Crop,
   Distort, Composition).
@@ -116,8 +119,42 @@ extension is registered.
   reported separately - both share the same underlying clip type in Final
   Cut Pro's own data, distinguished by the real Motion effect backing each
   one.
+- **Role filter**: laid out like the Roles list in Final Cut Pro's own Index: **All Roles**, then the **video
+  roles**, then the **audio roles**, each with Final Cut's colour for it. Only roles the open project uses are
+  listed. A role that has sub-roles (Dialogue with BoomMic, MixL ...) opens them as a sub-list, so the main list stays short; in
+  the sub-list **All Dialogue** shows the main role with every sub-role, and a sub-role shows only itself.
 - **Enabled/Disabled filter**: cycles between All, Enabled Only, and
   Disabled Only, reading Final Cut's own Enable/Disable clip state.
+
+## Roles
+
+The **Role** column shows the roles Final Cut Pro gives each clip: the video
+role and the audio role of the clip as a whole, written as Final Cut writes
+them ("Video", "Titles", "VFX", "Adjustment Clips", "Dialogue", "Dialogue.BoomMic"),
+each with a small square in **Final Cut's own colour** for that role. A role's
+default sub-role is shown as just the main role. A sync clip often has a
+different role on each audio channel (Camera, BoomMic, Mix ...); the column
+leaves those out to stay short, hover a cell to see every role of the clip, and
+the detail panel under the list lists them too. The role filter and the search
+field match channel roles as well.
+
+Roles are read from the project's own role list, so custom roles show with the
+names you gave them, and the colours are the ones set in Final Cut's Role Editor.
+Like Final Cut's own Roles list, a clip's own audio channels do not count while they
+are muted or switched off (the camera's audio under a synced recorder track, for
+example), but the channels synced in from a recorder do; a clip whose only audio is
+switched off still shows its main audio role (Dialogue). Where a channel is assigned a
+role, that role is the clip's audio role: a clip set to Music whose channel is assigned
+Effects is an Effects clip, as in Final Cut's timeline.
+Storylines, gaps and transitions have no role and stay blank.
+
+## Keyboard
+
+- **Cmd-F**: go to the search field.
+- **Down arrow** in the search field: go to the list.
+- **Up / Down** in the list: move through clips (each move also moves Final Cut's
+  playhead there).
+- **Return** in the list: move the playhead to the selected clip again.
 
 ## Analysis Cache Check
 
@@ -146,7 +183,7 @@ timeline order. Columns:
 
 `Timeline In, Timeline Out, Duration, Source In, Source Out, Clip, Type,
 Original Filename, Camera, Angle, Reel, Scene, Take, Notes, Custom
-Metadata, Enabled, Features, Details, Title Text`
+Metadata, Enabled, Features, Details, Title Text, Role, Audio Channel Roles`
 
 - **Original Filename/Camera/Reel/Scene/Take/Custom Metadata** are resolved
   from every event database in the library at export time (not during
@@ -157,6 +194,8 @@ Metadata, Enabled, Features, Details, Title Text`
   be resolved this way (see "Why It Reads The Library Directly" above).
 - **Title Text** is the actual on-screen text of a Title clip, read from its
   own Motion scene data - blank for anything that isn't a Title.
+- **Role** is the column of the same name in the panel; **Audio Channel
+  Roles** lists the roles of single audio channels, separated by semicolons.
 - **Details** summarizes what changed for each tracked feature (e.g. a
   Blend Mode change, a Retime speed/direction, a Crop value) in plain,
   human-readable form.

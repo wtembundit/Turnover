@@ -4,6 +4,8 @@ This guide explains the main Turnover workflows for Final Cut Pro VFX turnover i
 
 > Current status: Turnover is usable for the workflows we have tested, but it is still a work in progress. Some FCPXML edge cases still need refinement, especially complex retime/speed-ramp combinations, nested sync clips, titles connected across multiple clips, markers, transforms, and metadata in unusual timelines.
 
+Every tool can be opened and run from the keyboard (Cmd-1 to Cmd-9, Cmd-R ...); see [Keyboard Shortcuts](keyboard-shortcuts.md).
+
 ## 🎞 Conform Prep
 
 Prepares a timeline for VFX conform by flattening `sync-clip` items, and the common kinds of multicam clip, into easier-to-read original source clips where possible, as a video-only result. Multicam inside compound clips, nested multicam and similar shapes are skipped and listed in the report.

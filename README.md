@@ -216,9 +216,12 @@ Turnover Standalone.
   VFX Auto Naming/Reset Naming, VFX Auto Marker, VFX Shot List, VFX Pull
   EDL, and VFX Timeline.
 - [Timeline Index+ Guide](docs/timeline-index-extension.md): the native
-  Final Cut Pro Workflow Extension - live clip index, filters, playhead
+  Final Cut Pro Workflow Extension - live clip index, filters (including roles), playhead
   following, CSV export, and analysis-cache checking.
-- Release notes: [v1.5.1](docs/release-notes-v1.5.1.md) ·
+- [Keyboard Shortcuts](docs/keyboard-shortcuts.md): every shortcut in the main
+  window, the Burn-In Customizer and Timeline Index+.
+- Release notes: [v1.5.2](docs/release-notes-v1.5.2.md) ·
+  [v1.5.1](docs/release-notes-v1.5.1.md) ·
   [v1.5.0](docs/release-notes-v1.5.0.md) ·
   [v1.4.3](docs/release-notes-v1.4.3.md) ·
   [v1.4.2](docs/release-notes-v1.4.2.md) ·

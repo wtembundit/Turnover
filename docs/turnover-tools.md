@@ -1,10 +1,21 @@
 # Turnover Tools Guide
 
-This guide explains the main Turnover workflows for Final Cut Pro VFX turnover in Turnover Standalone. See the [Standalone Guide](../standalone/TurnoverApp/README.md) for installation and input methods.
+This guide explains the main Turnover workflows for Final Cut Pro VFX turnover in Turnover Standalone.
 
 > Current status: Turnover is usable for the workflows we have tested, but it is still a work in progress. Some FCPXML edge cases still need refinement, especially complex retime/speed-ramp combinations, nested sync clips, titles connected across multiple clips, markers, transforms, and metadata in unusual timelines.
 
 Every tool can be opened and run from the keyboard (Cmd-1 to Cmd-9, Cmd-R ...); see [Keyboard Shortcuts](keyboard-shortcuts.md).
+
+## Using the Window
+
+Drag an FCPXML, an FCPXMLD or a project from Final Cut Pro into the window (or use **Choose File**), choose a tool in the sidebar, check the settings shown for it, then **Run**. Tools that return a project to Final Cut Pro also offer **Send to Final Cut Pro**; the others save a file.
+
+The sidebar has two tabs:
+
+- **Turnover:** Conform Prep, Data Burn-In, Marker.
+- **VFX:** VFX Naming, VFX Auto Marker, VFX Pull EDL, VFX Shot List, VFX Timeline, Title ↔ Caption.
+
+**VFX Source** (Auto / Titles / Captions) is a shared setting of every VFX tool that reads shot numbers and notes from the timeline: VFX Naming, VFX Auto Marker, VFX Pull EDL, VFX Shot List and VFX Timeline. *Auto* uses whichever one the project has. If a project has VFX naming under both titles and captions, choose one explicitly.
 
 ## 🎞 Conform Prep
 
@@ -34,23 +45,79 @@ Important notes:
 
 ## 🔥 Data Burn-In
 
-Creates review burn-ins from an FCPXML or Final Cut Pro project loaded into Turnover.
+Creates review burn-ins from an FCPXML or Final Cut Pro project loaded into Turnover: text and timecode drawn from the timeline's own data (project, timeline timecode, source file and timecode, metadata, connected layers, VFX notes, captions, analysis details), either as a transparent overlay or burned into a reference video.
+
+For the full user manual, see [Data Burn-In](./data-burn-in.md).
+
+Build the Burn-In cache first (it reads the timeline); **Customize...** and **Export Video...** unlock once it is ready.
+
+Settings on the Data Burn-In page:
+
+- **Preset:** the saved layout to use.
+- **Reference Video:** the picture to burn in and to preview on. Required for *Burned-In Reference*; optional for *Transparent Overlay*.
+- **Export As:** *Transparent Overlay* or *Burned-In Reference*.
+- **Export Video...:** renders the burn-in with the current settings.
+- **Customize...:** opens the Customizer with a live preview.
 
 Exports:
 
-- **Transparent overlay:** a ProRes 4444 `.mov` with alpha, using a saved preset.
-- **Burned-in reference:** H.264/HEVC export over a reference video.
-- **Customizer:** preview, style changes, metadata selection, range export, and preset editing.
+- **Transparent Overlay:** ProRes 4444 `.mov` with alpha and no audio. Place it above the timeline in Final Cut Pro. The frame rate defaults to *Auto*, read from the timeline.
+- **Burned-In Reference:** your reference video with the burn-in on top. H.264, HEVC or ProRes 422 (HQ, standard, LT, Proxy); MP4 or MOV for H.264 and HEVC (ProRes is always MOV). The reference video's audio is kept.
+
+### Customizer settings
+
+The Customizer's inspector has four tabs (Option-Cmd-1 to 4):
+
+- **Element:** a burn-in is a list of independent *elements* that you add, duplicate, hide and reorder. For the selected element:
+  - **Placement:** drag it in the preview, or pick its corner and set exact *Move across* / *Move down* offsets.
+  - **Content:** plain text plus live data from **Insert Data**, with optional **Conditions** that append text (for example `TEMP AUDIO` when the audio role contains Dialogue).
+  - **Connected layers:** *Stack connected layers* (0-6) repeats the element's text for each connected clip above the primary storyline, with *Space between layers* and *Label tracks (V1, V2...)*.
+  - **Captions:** which caption roles the element reads, and *Include disabled captions*.
+  - **Style:** font, size, color, text and background opacity, padding; per element, or following the global style.
+- **Display:** *Show labels by default*, *Show source file extensions*, the *Source Layers List* options (layers shown, Compact or Detailed, one or two lines) and per-item *Data Labels*.
+- **Data:** which **Metadata** items feed Custom Metadata, and the **Analysis Details** to show: Transform, Position, Scale, Rotation, Crop, Distort, Spatial Conform, Stabilize, Optical Flow, Retime.
+- **Export:** **Preset** (Save, Save As, Rename, Delete, Import/Export as JSON to share a look between machines) and **Export Video**:
+  - *Mode*, *Codec* and *Container*.
+  - *Frame Rate:* Auto, or a custom fps.
+  - *Resolution:* Original, 200%, 150%, 75%, 50%, 25% or Custom. The picture always keeps its shape; text and padding scale with it.
+  - *Bitrate* for H.264 and HEVC.
+  - *Reveal when finished*, then **Export Video...**, which can be queued.
+
+Preview and range:
+
+- Mark an **In** and **Out** (I / O) to export only that range; X clears it.
+- Click an empty part of the picture, or press Shift-Cmd-A, to deselect the element.
+- F (or Esc to leave) shows the preview full screen.
+- Exports run in a queue with *Stop Current* and *Stop All*.
+
+## 🏷 Marker
+
+Exports the markers of the current timeline to a list you can load elsewhere, for example into DaVinci Resolve.
+
+Settings:
+
+- **Marker Type:** *All Markers*, *Standard*, *To Do*, *Chapter*, or *Turnover Recheck*.
+- **Format:** *EDL* (optimized for DaVinci Resolve), *CSV* or *TXT*.
 
 Best for:
 
-- Quick transparent burn-in overlays that can be placed above a timeline in Final Cut Pro.
-- Review exports where the burn-in layout should match a saved team preset.
-- Customizing fields, labels, metadata, style, or export range.
+- Bringing the editor's markers into a grade, conform or VFX tool.
+- Collecting everything that Turnover flagged for a second look (*Turnover Recheck*).
 
-Important notes:
+What it does:
 
-- Transparent export is ProRes 4444 `.mov` with alpha and no audio.
+- Reads the markers on the timeline and keeps the ones that match the chosen type.
+- In an EDL the marker colors are Green for Standard, Red for To Do, Blue for Chapter and Purple for Turnover Recheck.
+- *Turnover Recheck* lists the markers whose name starts with `TURNOVER RECHECK:`. Turnover's other tools add them where something needs a manual check after import.
+- You choose the output folder when you run it.
+
+Output:
+
+```text
+Markers - <Project Name> - <type>.edl
+Markers - <Project Name> - <type>.csv
+Markers - <Project Name> - <type>.txt
+```
 
 ## 📝 VFX Naming
 
@@ -61,6 +128,12 @@ Best for:
 - Timelines with placeholders such as `ABC_SC99_XXXX`.
 - Creating running shot numbers such as `0010`, `0020`, `0030`.
 - Restarting numbering when the scene prefix changes.
+
+Settings:
+
+- **Mode:** *Auto Number* or *Reset to XXXX*.
+- **Start** and **Step** (Auto Number): the first shot number and the increment. Both default to `10`, giving `0010`, `0020`, `0030`.
+- **VFX Source:** titles, captions, or Auto.
 
 What it does:
 
@@ -116,6 +189,12 @@ Marker types:
 - `To Do`: follow-up marker.
 - `Chapter`: chapter marker.
 
+Settings:
+
+- **Marker:** the type to create.
+- **Rename and add notes:** on by default; see below.
+- **VFX Source:** titles, captions, or Auto.
+
 What it does:
 
 - Lets the user choose marker type.
@@ -159,6 +238,8 @@ Main columns:
 - Metadata
 - Remark
 
+Settings: **Reference Movie** (the movie the thumbnails are taken from) and **VFX Source**.
+
 Thumbnail capture behavior:
 
 - Thumbnails are extracted from a reference movie whose timecode matches the timeline.
@@ -179,6 +260,8 @@ Best for:
 - Sending source ranges to online/VFX.
 - Adding handles to every pulled range.
 - Pulling more than one overlapping layer under the same VFX shot.
+
+Settings: **Handles** (0-240 frames per side) and **VFX Source**.
 
 Handle frames:
 
@@ -212,6 +295,16 @@ Best for:
 - Placing renders as connected clips, replacements, or auditions.
 - Tracking delivery versions such as v1, v2, and v3.
 
+Settings:
+
+- **Deliveries Folder:** the folder with the returned renders.
+- **Handles:** frames of handle included in each render, trimmed from both the head and the tail when it is placed (0-240).
+- **Slate:** frames of slate at the start of each render, trimmed from the head (0-240).
+- **Placement:** *Connected*, *Replace* or *Audition* (below).
+- **VFX Source:** titles, captions, or Auto.
+
+The result is imported into the Final Cut Pro event `📦 Turnover`.
+
 Modes:
 
 - `Connected`: places the render as a connected clip above the timeline.
@@ -229,3 +322,31 @@ Important notes:
 
 - Render filenames should clearly match the VFX shot code.
 - Timelines with complex title, marker, or clip overlap should be checked after import.
+
+## 🔄 Title ↔ Caption
+
+Converts VFX titles into captions, or captions into titles, so a timeline can move between the two ways of marking VFX shots.
+
+Settings:
+
+- **Direction:** *Title → Caption* or *Caption → Title*.
+- **Original:** what happens to the items that were converted.
+  - *Keep* leaves the original in place and adds the new one alongside.
+  - *Disable* does the same, but switches the original off in Final Cut Pro.
+  - *Delete* removes the original.
+
+Best for:
+
+- Projects that name VFX shots with titles but need captions (or the other way round) for the other tools, the shot list or the burn-in.
+- Moving a naming pass from one form to the other without retyping it.
+
+Output:
+
+```text
+<Project Name> - Title to Caption.fcpxml
+<Project Name> - Caption to Title.fcpxml
+```
+
+Important notes:
+
+- Check the result after import, especially when you choose *Delete*; *Keep* or *Disable* are the safer first passes.

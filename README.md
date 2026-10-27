@@ -212,9 +212,11 @@ Turnover Standalone.
 ## Documentation
 
 - [Turnover Tools Guide](docs/turnover-tools.md): detailed workflow
-  descriptions and usage notes for every tool - Conform Prep, Data Burn-In,
-  VFX Auto Naming/Reset Naming, VFX Auto Marker, VFX Shot List, VFX Pull
-  EDL, and VFX Timeline.
+  descriptions and settings for every tool - Conform Prep, Data Burn-In,
+  Marker, VFX Naming, VFX Auto Marker, VFX Shot List, VFX Pull EDL, VFX
+  Timeline, and Title ↔ Caption.
+- [Data Burn-In Guide](docs/data-burn-in.md): the burn-in user manual - elements,
+  presets, connected layers, captions, analysis details, and export settings.
 - [Timeline Index+ Guide](docs/timeline-index-extension.md): the native
   Final Cut Pro Workflow Extension - live clip index, filters (including roles), playhead
   following, CSV export, and analysis-cache checking.
@@ -234,9 +236,6 @@ Turnover Standalone.
   [v1.2.1](docs/release-notes-v1.2.1.md) ·
   [v1.2.0](docs/release-notes-v1.2.0.md) ·
   [v1.1.0](docs/release-notes-v1.1.0.md)
-
-This repository ships builds and user-facing documentation only. Turnover's
-implementation lives in a separate, private source repository.
 
 ## Updates
 

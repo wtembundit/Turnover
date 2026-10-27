@@ -246,3 +246,9 @@ app menu or the sidebar to check manually. Earlier versions do not update
 themselves: install v1.5.0 by hand once.
 
 Download page: https://wtembundit.github.io/Turnover/
+
+## Support
+
+Turnover is free. If it saves you time, you can support its development on Ko-fi.
+
+[![Support Turnover on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/wtembundit)
